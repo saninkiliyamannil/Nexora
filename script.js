@@ -1,126 +1,5 @@
 
         /* ════════════════════════════════════════
-           PRELOADER
-        ════════════════════════════════════════ */
-        (() => {
-            const bar = document.getElementById('pre-bar');
-            const pct = document.getElementById('pre-pct');
-            const msgs = ['// LOADING ASSETS', '// COMPILING SKILLS', '// BOOTING SYSTEMS', '// READY'];
-            let p = 0;
-            const txt = document.querySelector('.pre-txt');
-            const iv = setInterval(() => {
-                p = Math.min(100, p + (2 + Math.random() * 4));
-                bar.style.width = p + '%';
-                pct.textContent = Math.floor(p) + '%';
-                txt.textContent = msgs[Math.floor(p / 26)] || msgs[3];
-                if (p >= 100) {
-                    clearInterval(iv);
-                    setTimeout(() => {
-                        document.getElementById('preloader').classList.add('done');
-                        document.body.style.overflow = '';
-                    }, 400);
-                }
-            }, 40);
-            document.body.style.overflow = 'hidden';
-        })();
-
-        /* ════════════════════════════════════════
-           SMOOTH SCROLL (Lenis-style via CSS + JS momentum)
-        ════════════════════════════════════════ */
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', e => {
-                e.preventDefault();
-                const t = document.querySelector(a.getAttribute('href'));
-                if (!t) return;
-                // page transition flash
-                const flash = document.getElementById('pg-flash');
-                flash.style.animation = 'none';
-                flash.offsetHeight;
-                flash.style.animation = 'pgFlash .5s ease forwards';
-                setTimeout(() => {
-                    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 80);
-            });
-        });
-
-        /* ════════════════════════════════════════
-           CURSOR
-        ════════════════════════════════════════ */
-        const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
-        document.addEventListener('mousemove', e => {
-            cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
-            ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
-        });
-        document.querySelectorAll('a,button,input,textarea,select,.s-orb,.tool-badge,.tool-card,.testi-card').forEach(el => {
-            el.addEventListener('mouseenter', () => { cur.style.width = '18px'; cur.style.height = '18px'; ring.style.width = '52px'; ring.style.height = '52px'; ring.style.opacity = '1'; });
-            el.addEventListener('mouseleave', () => { cur.style.width = '10px'; cur.style.height = '10px'; ring.style.width = '32px'; ring.style.height = '32px'; ring.style.opacity = '.5'; });
-        });
-
-        /* ════════════════════════════════════════
-           SCROLL PROGRESS
-        ════════════════════════════════════════ */
-        window.addEventListener('scroll', () => {
-            document.getElementById('prog').style.transform = `scaleX(${window.scrollY / (document.body.scrollHeight - window.innerHeight)})`;
-        });
-
-        /* ════════════════════════════════════════
-           CLICK EXPLOSION
-        ════════════════════════════════════════ */
-        const eColors = ['#00ff88', '#ff0055', '#00cfff', '#ffd700', '#ff6600', '#cc00ff'];
-        document.addEventListener('click', e => {
-            const wrap = document.createElement('div'); wrap.className = 'explosion';
-            wrap.style.left = e.clientX + 'px'; wrap.style.top = e.clientY + 'px';
-            for (let i = 0; i < 14; i++) {
-                const p = document.createElement('div'); p.className = 'exp-p';
-                const a = (i / 14) * Math.PI * 2, dist = 50 + Math.random() * 80, col = eColors[i % eColors.length], sz = 3 + Math.random() * 5;
-                p.style.cssText = `--tx:${Math.cos(a) * dist}px;--ty:${Math.sin(a) * dist}px;--d:${.35 + Math.random() * .4}s;background:${col};box-shadow:0 0 5px ${col};width:${sz}px;height:${sz}px;`;
-                wrap.appendChild(p);
-            }
-            document.body.appendChild(wrap);
-            setTimeout(() => wrap.remove(), 800);
-        });
-
-        /* ════════════════════════════════════════
-           RANDOM GLITCH
-        ════════════════════════════════════════ */
-        function doGlitch() {
-            const els = [...document.querySelectorAll('.glitch-wrap')];
-            const el = els[Math.floor(Math.random() * els.length)];
-            el.classList.add('glitching');
-            setTimeout(() => el.classList.remove('glitching'), 260);
-            setTimeout(doGlitch, 2800 + Math.random() * 4500);
-        }
-        doGlitch();
-
-        /* ════════════════════════════════════════
-           HERO PARTICLES
-        ════════════════════════════════════════ */
-        (() => {
-            const c = document.getElementById('ptc'), ctx = c.getContext('2d');
-            const resize = () => { c.width = c.offsetWidth; c.height = c.offsetHeight; };
-            resize(); window.addEventListener('resize', resize);
-            const pts = Array.from({ length: 55 }, () => ({ x: Math.random() * 2000, y: Math.random() * 900, vx: (Math.random() - .5) * .28, vy: -(0.08 + Math.random() * .35), r: Math.random() * 1.4 + .4, col: Math.random() > .78 ? '#ff0055' : Math.random() > .62 ? '#00cfff' : '#00ff88', a: Math.random() * .55 + .1 }));
-            const draw = () => {
-                ctx.clearRect(0, 0, c.width, c.height);
-                pts.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.y < -10) { p.y = c.height + 10; p.x = Math.random() * c.width; } if (p.x < 0 || p.x > c.width) p.vx *= -1; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = p.col; ctx.globalAlpha = p.a; ctx.fill(); });
-                ctx.globalAlpha = 1; requestAnimationFrame(draw);
-            }; draw();
-        })();
-
-        /* ════════════════════════════════════════
-           COUNTDOWN
-        ════════════════════════════════════════ */
-        const cdT = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
-        const updCD = () => {
-            const d = cdT - Date.now(); if (d <= 0) return;
-            document.getElementById('cd-d').textContent = String(Math.floor(d / 864e5)).padStart(2, '0');
-            document.getElementById('cd-h').textContent = String(Math.floor((d % 864e5) / 36e5)).padStart(2, '0');
-            document.getElementById('cd-m').textContent = String(Math.floor((d % 36e5) / 6e4)).padStart(2, '0');
-            document.getElementById('cd-s').textContent = String(Math.floor((d % 6e4) / 1e3)).padStart(2, '0');
-        };
-        updCD(); setInterval(updCD, 1000);
-
-        /* ════════════════════════════════════════
            LIVE STATS TICKER
         ════════════════════════════════════════ */
         (() => {
@@ -210,7 +89,7 @@
         };
         function openSkillPage(skillName) {
             const slug = skillSlugMap[skillName] || String(skillName).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-            window.location.href = 'skills/' + slug + '.html';
+            window.location.href = 'services/' + slug + '.html';
         }
         /* ════════════════════════════════════════
            3D GLOBE
@@ -295,6 +174,7 @@
                 const startDrag = (cx, cy) => { orb.dragging = true; orb.ox = cx - orb.x; orb.oy = cy - orb.y; orb.pvx = 0; orb.pvy = 0; el.style.boxShadow = `0 0 35px ${d.col}55,0 0 70px ${d.col}28`; };
                 el.addEventListener('mousedown', e => { startDrag(e.clientX, e.clientY); e.preventDefault(); e.stopPropagation(); });
                 el.addEventListener('touchstart', e => { startDrag(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }, { passive: false });
+                el.addEventListener('click', ev => { if (window.matchMedia('(max-width: 768px)').matches && !orb.dragging) { ev.stopPropagation(); openSkillPage(d.lb); } });
             });
             const moveDrag = (cx, cy) => { orbs.forEach(o => { if (!o.dragging) return; const rect = arena.getBoundingClientRect(); const nx = cx - rect.left, ny = cy - rect.top; o.pvx = nx - o.r - o.x; o.pvy = ny - o.r - o.y; o.x = nx - o.r; o.y = ny - o.r; o.el.style.left = o.x + 'px'; o.el.style.top = o.y + 'px'; }); };
             window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
@@ -413,7 +293,7 @@
         ════════════════════════════════════════ */
         const tLines = [
             { type: 'cmd', t: 'whoami' }, { type: 'out', t: '<span class="tg">NEXORA</span> — digital polymath, creative technologist' },
-            { type: 'cmd', t: 'ls skills/ | wc -l' }, { type: 'out', t: '<span class="tg">12</span> disciplines across design, tech, security, media &amp; markets' },
+            { type: 'cmd', t: 'ls services/ | wc -l' }, { type: 'out', t: '<span class="tg">12</span> disciplines across design, tech, security, media &amp; markets' },
             { type: 'cmd', t: 'nmap -sV --script=vuln 192.168.1.1' }, { type: 'out', t: '<span class="tr">[SCAN]</span> Ports 22,80,443 · <span class="tg">Firewall active</span> · <span class="tg">0 vulnerabilities found</span>' },
             { type: 'cmd', t: 'forex --account funded --pair XAUUSD --analyze' }, { type: 'out', t: '<span class="tg">[TRADE]</span> Win rate: 74% · Drawdown: &lt;4% · Funded accounts managed: active · <span class="tg">P&L: +ve</span>' },
             { type: 'cmd', t: 'git push origin main && deploy --prod' }, { type: 'out', t: '<span class="tg">[DEPLOYED]</span> 847 commits · 0 bugs · 100% test pass · live in 3.2s' },
@@ -481,7 +361,12 @@
         const greet = document.getElementById('cf-greeting');
         if (greet) greet.classList.remove('show');
     } catch (error) {
-        if (err) err.style.display = 'block';
+        try {
+            form.submit();
+            return;
+        } catch (_) {
+            if (err) err.style.display = 'block';
+        }
     } finally {
         btn.disabled = false;
         btnText.textContent = prevText;
@@ -507,5 +392,9 @@
         });
         setTimeout(() => { const h = document.getElementById('egg-hint'); h.style.opacity = '.32'; setTimeout(() => h.style.opacity = '0', 3200); }, 8000);
     
+
+
+
+
 
 

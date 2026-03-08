@@ -844,6 +844,75 @@
             color: var(--text-dim);
         }
 
+        /* ══ SKILLS DIRECTORY ══ */
+        #skills-sec {
+            display: none;
+            padding: 7rem 4rem;
+            background: var(--smoke);
+        }
+
+        .skills-head {
+            text-align: center;
+            margin-bottom: 2.2rem;
+        }
+
+        .skills-head h2 {
+            font-family: 'Black Ops One', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            background: linear-gradient(135deg, var(--text), rgba(0, 255, 136, .7));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: .5rem;
+        }
+
+        .skills-head p {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .62rem;
+            letter-spacing: .18em;
+            color: var(--text-dim);
+        }
+
+        .skills-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: .9rem;
+        }
+
+        .skill-card {
+            text-decoration: none;
+            border: 1px solid var(--border);
+            background: var(--card);
+            border-radius: 4px;
+            min-height: 62px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: .8rem 1rem;
+            transition: border-color .3s, transform .3s, box-shadow .3s;
+        }
+
+        .skill-card span {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .66rem;
+            letter-spacing: .15em;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .skill-card:hover {
+            border-color: var(--acid);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0, 255, 136, .08);
+        }
+
+        .skill-card:hover span {
+            color: var(--acid);
+        }
+
         /* ══ ABOUT ══ */
         #about {
             padding: 9rem 4rem;
@@ -1837,6 +1906,7 @@
 
             #glob-sec,
             #orbs-sec,
+            #skills-sec,
             #about,
             #term-sec,
             #process,
@@ -1935,6 +2005,15 @@
 
             #orbs-sec {
                 padding: 5rem 1.2rem 3.5rem;
+            }
+
+            #skills-sec {
+                display: block;
+                padding: 5rem 1.2rem 3.5rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             #orbs-arena {
@@ -2076,6 +2155,10 @@
                 height: 340px;
             }
 
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
             nav {
                 padding: .75rem .9rem;
             }
@@ -2111,3 +2194,6 @@
             }
         }
     
+
+
+
