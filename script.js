@@ -157,18 +157,18 @@ function openSkillPage(skillName) {
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 (() => {
     const skills = [
-        { label: 'Logo Design', icon: 'ðŸŽ¨', color: '#00ff88', lat: 30, lon: 0 },
-        { label: 'Content Writing', icon: 'âœï¸', color: '#00cfff', lat: -20, lon: 60 },
-        { label: 'Programming', icon: 'ðŸ’»', color: '#ffd700', lat: 50, lon: 120 },
-        { label: 'Ethical Hacking', icon: 'ðŸ”“', color: '#ff0055', lat: -40, lon: 180 },
-        { label: 'Music Prod.', icon: 'ðŸŽµ', color: '#cc00ff', lat: 10, lon: -60 },
-        { label: 'Video Prod.', icon: 'ðŸŽ¬', color: '#ff6600', lat: -55, lon: -120 },
-        { label: 'Photo Editing', icon: 'ðŸ–¼ï¸', color: '#00ffcc', lat: 65, lon: 60 },
-        { label: 'Graphic Design', icon: 'ðŸ–Œï¸', color: '#ff3399', lat: -10, lon: -30 },
-        { label: 'Firewall Dev', icon: 'ðŸ›¡ï¸', color: '#ff2222', lat: 20, lon: 150 },
-        { label: 'Web Dev', icon: 'ðŸŒ', color: '#0099ff', lat: -30, lon: 90 },
-        { label: 'Full Stack', icon: 'âš¡', color: '#00ff88', lat: 40, lon: -150 },
-        { label: 'Forex / Funds', icon: 'ðŸ“ˆ', color: '#ffd700', lat: -15, lon: 30 },
+        { label: 'Logo Design', color: '#00ff88', lat: 30, lon: 0 },
+        { label: 'Content Writing', color: '#00cfff', lat: -20, lon: 60 },
+        { label: 'Programming', color: '#ffd700', lat: 50, lon: 120 },
+        { label: 'Ethical Hacking', color: '#ff0055', lat: -40, lon: 180 },
+        { label: 'Music Prod.', color: '#cc00ff', lat: 10, lon: -60 },
+        { label: 'Video Prod.', color: '#ff6600', lat: -55, lon: -120 },
+        { label: 'Photo Editing', color: '#00ffcc', lat: 65, lon: 60 },
+        { label: 'Graphic Design', color: '#ff3399', lat: -10, lon: -30 },
+        { label: 'Firewall Dev', color: '#ff2222', lat: 20, lon: 150 },
+        { label: 'Web Dev', color: '#0099ff', lat: -30, lon: 90 },
+        { label: 'Full Stack', color: '#00ff88', lat: 40, lon: -150 },
+        { label: 'Forex / Funds', color: '#ffd700', lat: -15, lon: 30 },
     ];
     const c = document.getElementById('globe-c'), ctx = c.getContext('2d');
     const setSize = () => { const s = Math.min(500, window.innerWidth - 40); c.width = s; c.height = s; };
@@ -199,8 +199,19 @@ function openSkillPage(skillName) {
             grd.addColorStop(0, s.color + '44'); grd.addColorStop(1, 'transparent');
             ctx.fillStyle = grd; ctx.globalAlpha = al; ctx.beginPath(); ctx.arc(s.sx, s.sy, r * 2.8, 0, Math.PI * 2); ctx.fill();
             ctx.globalAlpha = al; ctx.beginPath(); ctx.arc(s.sx, s.sy, r, 0, Math.PI * 2); ctx.fillStyle = s.color; ctx.fill();
-            ctx.font = `${16 * sc * (cr / 210)}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(s.icon, s.sx, s.sy);
-            if (s.z > .28 && cw > 300) { ctx.font = `bold ${9 * sc * (cr / 210)}px 'Rajdhani',sans-serif`; ctx.fillStyle = '#fff'; ctx.globalAlpha = al * .85; ctx.fillText(s.label, s.sx, s.sy + r + 9 * sc * (cr / 210)); }
+            if (s.z > -.02 && cw > 260) {
+                const fs = Math.max(9, 11 * sc * (cr / 210));
+                const ty = s.sy + r + 10 * sc * (cr / 210);
+                ctx.globalAlpha = al * .95;
+                ctx.font = `700 ${fs}px 'Rajdhani',sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = 'rgba(0,0,0,.65)';
+                ctx.strokeText(s.label, s.sx, ty);
+                ctx.fillStyle = 'rgba(255,255,255,.98)';
+                ctx.fillText(s.label, s.sx, ty);
+            }
             ctx.globalAlpha = 1;
         });
         ctx.beginPath(); ctx.arc(cw / 2, ch / 2, cr, 0, Math.PI * 2);
