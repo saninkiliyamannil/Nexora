@@ -354,7 +354,7 @@ function openSkillPage(skillName) {
     testimonials.forEach((t, i) => {
         const card = document.createElement('div'); card.className = 'testi-card reveal';
         card.style.transitionDelay = `${i * 0.15}s`;
-        card.innerHTML = `<div class="testi-quote-mark">"</div><div class="testi-stars">${'â˜…'.repeat(t.stars)}</div><p class="testi-text">"${t.text}"</p>`;
+        card.innerHTML = `<div class="testi-quote-mark">"</div><div class="testi-stars">${'&#9733;'.repeat(t.stars)}</div><p class="testi-text">"${t.text}"</p>`;
         grid.appendChild(card);
         revObs.observe(card);
     });
