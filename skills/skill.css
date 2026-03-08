@@ -1,0 +1,10 @@
+:root{--bg:#07070d;--card:#111321;--line:#24283f;--text:#e9ecff;--muted:#9aa3c7;--accent:#00ff88}
+*{box-sizing:border-box}body{margin:0;font-family:Rajdhani,sans-serif;background:radial-gradient(circle at 20% 10%,#11182f 0%,#07070d 45%);color:var(--text)}
+.wrap{max-width:980px;margin:0 auto;padding:2rem 1.2rem 4rem}
+.back{display:inline-block;color:var(--accent);text-decoration:none;font-family:"Share Tech Mono",monospace;font-size:.8rem;letter-spacing:.12em;margin-bottom:1.5rem}
+h1{margin:.3rem 0 1rem;font-family:"Black Ops One",sans-serif;letter-spacing:.06em}
+.lead{color:var(--muted);max-width:740px;line-height:1.7}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1.5rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:1rem}
+.card h3{margin:.1rem 0 .4rem;font-family:"Bebas Neue",sans-serif;letter-spacing:.08em;font-size:1.2rem}
+.card p{margin:0;color:var(--muted);line-height:1.6}
