@@ -1,21 +1,82 @@
+﻿/* PRELOADER */
+(() => {
+  const bar = document.getElementById('pre-bar');
+  const pct = document.getElementById('pre-pct');
+  const preloader = document.getElementById('preloader');
+  const txt = document.querySelector('.pre-txt');
+  if (!bar || !pct || !preloader) return;
 
-        /* ════════════════════════════════════════
+  const msgs = ['// LOADING ASSETS', '// COMPILING SKILLS', '// BOOTING SYSTEMS', '// READY'];
+  let p = 0;
+  document.body.style.overflow = 'hidden';
+
+  const iv = setInterval(() => {
+    p = Math.min(100, p + (2 + Math.random() * 4));
+    bar.style.width = p + '%';
+    pct.textContent = Math.floor(p) + '%';
+    if (txt) txt.textContent = msgs[Math.floor(p / 26)] || msgs[3];
+
+    if (p >= 100) {
+      clearInterval(iv);
+      setTimeout(() => {
+        preloader.classList.add('done');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+  }, 40);
+})();
+
+/* CURSOR */
+(() => {
+  const cur = document.getElementById('cur');
+  const ring = document.getElementById('cur-ring');
+  if (!cur || !ring) return;
+
+  document.addEventListener('mousemove', (e) => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  });
+
+  const interactiveSel = 'a,button,input,textarea,select,.s-orb,.tool-badge,.testi-card,.skill-card';
+  document.addEventListener('mouseover', (e) => {
+    if (!e.target.closest(interactiveSel)) return;
+    cur.style.width = '18px';
+    cur.style.height = '18px';
+    ring.style.width = '52px';
+    ring.style.height = '52px';
+    ring.style.opacity = '1';
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    if (!e.target.closest(interactiveSel)) return;
+    cur.style.width = '10px';
+    cur.style.height = '10px';
+    ring.style.width = '32px';
+    ring.style.height = '32px';
+    ring.style.opacity = '.5';
+  });
+})();
+;
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            LIVE STATS TICKER
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         (() => {
             const stats = [
-                { icon: '📈', val: '74%', lbl: 'FOREX WIN RATE' },
-                { icon: '💰', val: '3+', lbl: 'FUNDED ACCOUNTS' },
-                { icon: '💻', val: '847', lbl: 'COMMITS THIS YEAR' },
-                { icon: '🎨', val: '230+', lbl: 'DESIGNS SHIPPED' },
-                { icon: '🔓', val: '94', lbl: 'VULNS PATCHED' },
-                { icon: '🎵', val: '61', lbl: 'TRACKS PRODUCED' },
-                { icon: '🌐', val: '47', lbl: 'SITES DEPLOYED' },
-                { icon: '🛡️', val: '12', lbl: 'FIREWALLS BUILT' },
-                { icon: '✍️', val: '180K', lbl: 'WORDS WRITTEN' },
-                { icon: '⭐', val: '4.9', lbl: 'AVG CLIENT RATING' },
-                { icon: '🎬', val: '38', lbl: 'VIDEOS EDITED' },
-                { icon: '⚡', val: '99%', lbl: 'UPTIME RECORD' },
+                { icon: 'ðŸ“ˆ', val: '74%', lbl: 'FOREX WIN RATE' },
+                { icon: 'ðŸ’°', val: '3+', lbl: 'FUNDED ACCOUNTS' },
+                { icon: 'ðŸ’»', val: '847', lbl: 'COMMITS THIS YEAR' },
+                { icon: 'ðŸŽ¨', val: '230+', lbl: 'DESIGNS SHIPPED' },
+                { icon: 'ðŸ”“', val: '94', lbl: 'VULNS PATCHED' },
+                { icon: 'ðŸŽµ', val: '61', lbl: 'TRACKS PRODUCED' },
+                { icon: 'ðŸŒ', val: '47', lbl: 'SITES DEPLOYED' },
+                { icon: 'ðŸ›¡ï¸', val: '12', lbl: 'FIREWALLS BUILT' },
+                { icon: 'âœï¸', val: '180K', lbl: 'WORDS WRITTEN' },
+                { icon: 'â­', val: '4.9', lbl: 'AVG CLIENT RATING' },
+                { icon: 'ðŸŽ¬', val: '38', lbl: 'VIDEOS EDITED' },
+                { icon: 'âš¡', val: '99%', lbl: 'UPTIME RECORD' },
             ];
             const ticker = document.getElementById('ticker');
             // Double the stats for seamless loop
@@ -23,21 +84,21 @@
                 const item = document.createElement('div'); item.className = 'stat-item';
                 item.innerHTML = `<span class="stat-item-icon">${s.icon}</span><span class="stat-item-val">${s.val}</span><span class="stat-item-lbl">${s.lbl}</span>`;
                 ticker.appendChild(item);
-                if (i < stats.length * 2 - 1) { const sep = document.createElement('span'); sep.className = 'stat-sep'; sep.textContent = '·'; ticker.appendChild(sep); }
+                if (i < stats.length * 2 - 1) { const sep = document.createElement('span'); sep.className = 'stat-sep'; sep.textContent = 'Â·'; ticker.appendChild(sep); }
             });
         })();
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            CINEMATIC REVEAL (Intersection Observer)
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         const revObs = new IntersectionObserver(entries => {
             entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
         }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
         document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el => revObs.observe(el));
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            MAGNETIC BUTTONS
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         document.querySelectorAll('.mag-btn').forEach(btn => {
             btn.addEventListener('mousemove', e => {
                 const r = btn.getBoundingClientRect();
@@ -48,9 +109,9 @@
             btn.addEventListener('mouseleave', () => btn.style.transform = '');
         });
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            HAMBURGER / DRAWER
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         const ham = document.getElementById('ham');
         const drawer = document.getElementById('mobile-drawer');
         ham.addEventListener('click', e => {
@@ -91,23 +152,23 @@
             const slug = skillSlugMap[skillName] || String(skillName).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
             window.location.href = 'services/' + slug + '.html';
         }
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            3D GLOBE
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         (() => {
             const skills = [
-                { label: 'Logo Design', icon: '🎨', color: '#00ff88', lat: 30, lon: 0 },
-                { label: 'Content Writing', icon: '✍️', color: '#00cfff', lat: -20, lon: 60 },
-                { label: 'Programming', icon: '💻', color: '#ffd700', lat: 50, lon: 120 },
-                { label: 'Ethical Hacking', icon: '🔓', color: '#ff0055', lat: -40, lon: 180 },
-                { label: 'Music Prod.', icon: '🎵', color: '#cc00ff', lat: 10, lon: -60 },
-                { label: 'Video Prod.', icon: '🎬', color: '#ff6600', lat: -55, lon: -120 },
-                { label: 'Photo Editing', icon: '🖼️', color: '#00ffcc', lat: 65, lon: 60 },
-                { label: 'Graphic Design', icon: '🖌️', color: '#ff3399', lat: -10, lon: -30 },
-                { label: 'Firewall Dev', icon: '🛡️', color: '#ff2222', lat: 20, lon: 150 },
-                { label: 'Web Dev', icon: '🌐', color: '#0099ff', lat: -30, lon: 90 },
-                { label: 'Full Stack', icon: '⚡', color: '#00ff88', lat: 40, lon: -150 },
-                { label: 'Forex / Funds', icon: '📈', color: '#ffd700', lat: -15, lon: 30 },
+                { label: 'Logo Design', icon: 'ðŸŽ¨', color: '#00ff88', lat: 30, lon: 0 },
+                { label: 'Content Writing', icon: 'âœï¸', color: '#00cfff', lat: -20, lon: 60 },
+                { label: 'Programming', icon: 'ðŸ’»', color: '#ffd700', lat: 50, lon: 120 },
+                { label: 'Ethical Hacking', icon: 'ðŸ”“', color: '#ff0055', lat: -40, lon: 180 },
+                { label: 'Music Prod.', icon: 'ðŸŽµ', color: '#cc00ff', lat: 10, lon: -60 },
+                { label: 'Video Prod.', icon: 'ðŸŽ¬', color: '#ff6600', lat: -55, lon: -120 },
+                { label: 'Photo Editing', icon: 'ðŸ–¼ï¸', color: '#00ffcc', lat: 65, lon: 60 },
+                { label: 'Graphic Design', icon: 'ðŸ–Œï¸', color: '#ff3399', lat: -10, lon: -30 },
+                { label: 'Firewall Dev', icon: 'ðŸ›¡ï¸', color: '#ff2222', lat: 20, lon: 150 },
+                { label: 'Web Dev', icon: 'ðŸŒ', color: '#0099ff', lat: -30, lon: 90 },
+                { label: 'Full Stack', icon: 'âš¡', color: '#00ff88', lat: 40, lon: -150 },
+                { label: 'Forex / Funds', icon: 'ðŸ“ˆ', color: '#ffd700', lat: -15, lon: 30 },
             ];
             const c = document.getElementById('globe-c'), ctx = c.getContext('2d');
             const setSize = () => { const s = Math.min(500, window.innerWidth - 40); c.width = s; c.height = s; };
@@ -156,25 +217,25 @@
             window.addEventListener('touchmove', e => { if (!drag) return; rY += (e.touches[0].clientX - lx) * .006; rX += (e.touches[0].clientY - ly) * .005; rX = Math.max(-.75, Math.min(.75, rX)); lx = e.touches[0].clientX; ly = e.touches[0].clientY; }, { passive: true });
         })();
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            DRAGGABLE ORBS
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         (() => {
-            const data = [{ lb: 'Logo Design', ic: '🎨', col: '#00ff88', sz: 88 }, { lb: 'Writing', ic: '✍️', col: '#00cfff', sz: 78 }, { lb: 'Programming', ic: '💻', col: '#ffd700', sz: 94 }, { lb: 'Hacking', ic: '🔓', col: '#ff0055', sz: 86 }, { lb: 'Music', ic: '🎵', col: '#cc00ff', sz: 80 }, { lb: 'Video', ic: '🎬', col: '#ff6600', sz: 83 }, { lb: 'Photo', ic: '🖼️', col: '#00ffcc', sz: 76 }, { lb: 'Graphic', ic: '🖌️', col: '#ff3399', sz: 82 }, { lb: 'Firewall', ic: '🛡️', col: '#ff2222', sz: 85 }, { lb: 'Web Dev', ic: '🌐', col: '#0099ff', sz: 88 }, { lb: 'Full Stack', ic: '⚡', col: '#00ff88', sz: 90 }, { lb: 'Forex', ic: '📈', col: '#ffd700', sz: 92 }];
+            const data = [{ lb: 'Logo Design', col: '#00ff88', sz: 88 }, { lb: 'Writing', col: '#00cfff', sz: 78 }, { lb: 'Programming', col: '#ffd700', sz: 94 }, { lb: 'Hacking', col: '#ff0055', sz: 86 }, { lb: 'Music', col: '#cc00ff', sz: 80 }, { lb: 'Video', col: '#ff6600', sz: 83 }, { lb: 'Photo', col: '#00ffcc', sz: 76 }, { lb: 'Graphic', col: '#ff3399', sz: 82 }, { lb: 'Firewall', col: '#ff2222', sz: 85 }, { lb: 'Web Dev', col: '#0099ff', sz: 88 }, { lb: 'Full Stack', col: '#00ff88', sz: 90 }, { lb: 'Forex', col: '#ffd700', sz: 92 }];
             const arena = document.getElementById('orbs-arena');
             const orbs = []; const AW = () => arena.offsetWidth, AH = () => arena.offsetHeight;
             data.forEach(d => {
                 const x = d.sz / 2 + Math.random() * (AW() - d.sz), y = d.sz / 2 + Math.random() * (AH() - d.sz);
                 const el = document.createElement('div'); el.className = 's-orb';
                 el.style.cssText = `width:${d.sz}px;height:${d.sz}px;left:${x - d.sz / 2}px;top:${y - d.sz / 2}px;background:radial-gradient(circle at 35% 35%,${d.col}20,${d.col}07 65%,transparent);border:1.5px solid ${d.col}40;box-shadow:0 0 16px ${d.col}1a,inset 0 0 8px ${d.col}0d;`;
-                el.innerHTML = `<span class="orb-ic">${d.ic}</span><span class="orb-lb">${d.lb}</span>`;
+                el.innerHTML = `<span class="orb-lb">${d.lb}</span>`;
                 arena.appendChild(el);
                 const orb = { el, x: x - d.sz / 2, y: y - d.sz / 2, vx: (Math.random() - .5) * 1.6, vy: (Math.random() - .5) * 1.6, r: d.sz / 2, col: d.col, dragging: false, pvx: 0, pvy: 0 };
                 orbs.push(orb);
                 const startDrag = (cx, cy) => { orb.dragging = true; orb.ox = cx - orb.x; orb.oy = cy - orb.y; orb.pvx = 0; orb.pvy = 0; el.style.boxShadow = `0 0 35px ${d.col}55,0 0 70px ${d.col}28`; };
                 el.addEventListener('mousedown', e => { startDrag(e.clientX, e.clientY); e.preventDefault(); e.stopPropagation(); });
                 el.addEventListener('touchstart', e => { startDrag(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }, { passive: false });
-                el.addEventListener('click', ev => { if (window.matchMedia('(max-width: 768px)').matches && !orb.dragging) { ev.stopPropagation(); openSkillPage(d.lb); } });
+                el.addEventListener('dblclick', ev => { if (!orb.dragging) { ev.stopPropagation(); openSkillPage(d.lb); } });
             });
             const moveDrag = (cx, cy) => { orbs.forEach(o => { if (!o.dragging) return; const rect = arena.getBoundingClientRect(); const nx = cx - rect.left, ny = cy - rect.top; o.pvx = nx - o.r - o.x; o.pvy = ny - o.r - o.y; o.x = nx - o.r; o.y = ny - o.r; o.el.style.left = o.x + 'px'; o.el.style.top = o.y + 'px'; }); };
             window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
@@ -193,9 +254,9 @@
             }; loop();
         })();
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            TOOLS & CERTIFICATIONS
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         (() => {
             const tools = [
                 { icon: 'PY', name: 'Python' },
@@ -233,7 +294,7 @@
                 b.innerHTML = `<span class="tool-icon">${t.icon}</span><span class="tool-name">${t.name}</span>`;
                 track.appendChild(b);
             }); const toolsInUse = [
-                { icon: 'PY', name: 'Python', use: 'AUTOMATION � BACKEND' },
+                { icon: 'PY', name: 'Python', use: 'AUTOMATION ï¿½ BACKEND' },
                 { icon: 'RE', name: 'React', use: 'FRONTEND APPS' },
                 { icon: 'JS', name: 'JavaScript', use: 'CLIENT LOGIC' },
                 { icon: 'RS', name: 'Rust', use: 'HIGH-PERF MODULES' },
@@ -269,9 +330,9 @@
             });
         })();
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            TESTIMONIALS
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         (() => {
             const testimonials = [
                 { text: "Working with NEXORA was organized and dependable. Communication stayed clear, and the final delivery matched expectations after a few rounds of refinement.", stars: 4 },
@@ -282,41 +343,41 @@
             testimonials.forEach((t, i) => {
                 const card = document.createElement('div'); card.className = 'testi-card reveal';
                 card.style.transitionDelay = `${i * 0.15}s`;
-                card.innerHTML = `<div class="testi-quote-mark">"</div><div class="testi-stars">${'★'.repeat(t.stars)}</div><p class="testi-text">"${t.text}"</p>`;
+                card.innerHTML = `<div class="testi-quote-mark">"</div><div class="testi-stars">${'â˜…'.repeat(t.stars)}</div><p class="testi-text">"${t.text}"</p>`;
                 grid.appendChild(card);
                 revObs.observe(card);
             });
         })();
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            TERMINAL
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         const tLines = [
-            { type: 'cmd', t: 'whoami' }, { type: 'out', t: '<span class="tg">NEXORA</span> — digital polymath, creative technologist' },
+            { type: 'cmd', t: 'whoami' }, { type: 'out', t: '<span class="tg">NEXORA</span> â€” digital polymath, creative technologist' },
             { type: 'cmd', t: 'ls services/ | wc -l' }, { type: 'out', t: '<span class="tg">12</span> disciplines across design, tech, security, media &amp; markets' },
-            { type: 'cmd', t: 'nmap -sV --script=vuln 192.168.1.1' }, { type: 'out', t: '<span class="tr">[SCAN]</span> Ports 22,80,443 · <span class="tg">Firewall active</span> · <span class="tg">0 vulnerabilities found</span>' },
-            { type: 'cmd', t: 'forex --account funded --pair XAUUSD --analyze' }, { type: 'out', t: '<span class="tg">[TRADE]</span> Win rate: 74% · Drawdown: &lt;4% · Funded accounts managed: active · <span class="tg">P&L: +ve</span>' },
-            { type: 'cmd', t: 'git push origin main && deploy --prod' }, { type: 'out', t: '<span class="tg">[DEPLOYED]</span> 847 commits · 0 bugs · 100% test pass · live in 3.2s' },
+            { type: 'cmd', t: 'nmap -sV --script=vuln 192.168.1.1' }, { type: 'out', t: '<span class="tr">[SCAN]</span> Ports 22,80,443 Â· <span class="tg">Firewall active</span> Â· <span class="tg">0 vulnerabilities found</span>' },
+            { type: 'cmd', t: 'forex --account funded --pair XAUUSD --analyze' }, { type: 'out', t: '<span class="tg">[TRADE]</span> Win rate: 74% Â· Drawdown: &lt;4% Â· Funded accounts managed: active Â· <span class="tg">P&L: +ve</span>' },
+            { type: 'cmd', t: 'git push origin main && deploy --prod' }, { type: 'out', t: '<span class="tg">[DEPLOYED]</span> 847 commits Â· 0 bugs Â· 100% test pass Â· live in 3.2s' },
             { type: 'cmd', t: './run_portfolio.sh' }, { type: 'out', t: '<span class="tg">[READY]</span> All systems operational <span class="c-blink"></span>' },
         ];
         let li = 0; const tb = document.getElementById('t-body');
         const typeNext = () => { if (li >= tLines.length) return; const l = tLines[li]; const div = document.createElement('div'); if (l.type === 'cmd') { div.className = 't-ln'; div.innerHTML = `<span class="t-pr">$</span><span class="t-cm"></span>`; tb.appendChild(div); const tc = div.querySelector('.t-cm'); let ci = 0; const t = setInterval(() => { tc.textContent = l.t.substring(0, ci++); if (ci > l.t.length) { clearInterval(t); li++; setTimeout(typeNext, 160); } }, 32); } else { div.className = 't-ot'; div.innerHTML = l.t; tb.appendChild(div); li++; setTimeout(typeNext, 75); } };
         new IntersectionObserver(e => { if (e[0].isIntersecting) typeNext(); }, { threshold: .3 }).observe(document.getElementById('term-sec'));
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            TIMELINE REVEAL
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         document.querySelectorAll('.tl-it').forEach(el => { new IntersectionObserver(e => { if (e[0].isIntersecting) e[0].target.classList.add('vis'); }, { threshold: .2 }).observe(el); });
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            COUNTERS
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         document.querySelectorAll('.st-n[data-target]').forEach(el => { new IntersectionObserver(e => { if (e[0].isIntersecting) { const tgt = parseInt(el.dataset.target); let cur = 0; const step = tgt / 50; const t = setInterval(() => { cur += step; if (cur >= tgt) { cur = tgt; clearInterval(t); } el.textContent = Math.floor(cur) + (tgt === 100 ? '%' : ''); }, 22); } }, { threshold: .5 }).observe(el); });
 
-        /* ════════════════════════════════════════
-           CONTACT FORM — auto greeting
-        ════════════════════════════════════════ */
-        const greetings = ['Hey {name}, let\'s build something legendary.', 'Welcome {name} — ready when you are.', 'Glad you\'re here, {name}. Let\'s NEXORA something.', 'Hi {name} 👋 — drop your brief below.'];
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+           CONTACT FORM â€” auto greeting
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        const greetings = ['Hey {name}, let\'s build something legendary.', 'Welcome {name} â€” ready when you are.', 'Glad you\'re here, {name}. Let\'s NEXORA something.', 'Hi {name} ðŸ‘‹ â€” drop your brief below.'];
         document.getElementById('cf-name').addEventListener('input', function () {
             const name = this.value.trim();
             const el = document.getElementById('cf-greeting');
@@ -373,9 +434,9 @@
     }
 }
 
-        /* ════════════════════════════════════════
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
            EASTER EGG
-        ════════════════════════════════════════ */
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         let ebuf = '';
         document.addEventListener('keydown', ev => {
             ebuf += ev.key.toUpperCase(); if (ebuf.length > 9) ebuf = ebuf.slice(-9);
@@ -398,3 +459,26 @@
 
 
 
+
+
+
+
+
+
+/* NAV SMOOTH SCROLL */
+(() => {
+  const nav = document.querySelector('nav');
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href');
+      if (!targetId || targetId === '#') return;
+      const target = document.querySelector(targetId);
+      if (!target) return;
+
+      e.preventDefault();
+      const navOffset = nav ? nav.offsetHeight : 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - navOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+})();

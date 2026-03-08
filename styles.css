@@ -819,20 +819,17 @@
             z-index: 10;
         }
 
-        .orb-ic {
-            font-size: 1.55rem;
-            line-height: 1;
-            pointer-events: none;
-        }
-
         .orb-lb {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: .72rem;
-            letter-spacing: .08em;
-            color: rgba(255, 255, 255, .88);
-            margin-top: .25rem;
+            font-size: .92rem;
+            font-weight: 700;
+            letter-spacing: .05em;
+            color: rgba(255, 255, 255, .96);
+            text-shadow: 0 0 8px rgba(0, 0, 0, .55);
             pointer-events: none;
             text-align: center;
+            line-height: 1.05;
+            padding: 0 .35rem;
         }
 
         .orbs-hint {
