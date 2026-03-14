@@ -5,15 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXORA - Digital Polymath</title>
+    <meta name="description" content="Design · Code · Trade · Dominate - Where creativity meets computation. We build digital experiences that outlast the brief.">
+    <meta name="keywords" content="digital agency, web development, design, branding, programming, ethical hacking, forex trading, creative agency">
+    <meta name="author" content="Nexora">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="NEXORA | Digital Polymath Agency">
+    <meta property="og:description" content="Design · Code · Trade · Dominate - Where creativity meets computation.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#000000">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://formsubmit.co;">
+    <link rel="canonical" href="https://nexora.com/">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "NEXORA",
+        "description": "Digital Polymath Agency - Design, Code, Trade. Creative and technical services including web development, ethical hacking, forex trading, and multimedia production.",
+        "url": "https://nexora.com",
+        "logo": "https://nexora.com/icons/favicon.png",
+        "areaServed": "Worldwide",
+        "serviceType": ["Web Development", "Graphic Design", "Ethical Hacking", "Music Production", "Video Production", "Forex Trading"],
+        "priceRange": "$$$",
+        "sameAs": []
+    }
+    </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Bebas+Neue&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="icons/favicon.png">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
 <body>
+    <!-- COOKIE CONSENT BANNER -->
+    <div id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-desc" style="display: none;">
+        <div class="cookie-content">
+            <h3 id="cookie-title">// COOKIE CONSENT</h3>
+            <p id="cookie-desc">We use cookies to enhance your browsing experience and analyze site traffic. By clicking "Accept", you consent to our use of cookies.</p>
+            <div class="cookie-buttons">
+                <button id="cookie-accept" class="mag-btn"><span>ACCEPT</span></button>
+                <button id="cookie-decline" class="mag-btn-outline"><span>DECLINE</span></button>
+            </div>
+        </div>
+    </div>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- PRELOADER -->
     <div id="preloader">
@@ -32,29 +74,31 @@
     <div id="egg-hint">// type: NEXORA</div>
 
     <!-- NAV -->
-    <nav>
-        <div class="nav-logo glitch-wrap">NEXORA</div>
-        <button id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
-        <ul class="nav-links">
-            <li><a href="#globe-sec">Globe</a></li>
-            <li><a href="#orbs-sec">Services</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#testi-sec">Clients</a></li>
-            <li><a href="#process">Process</a></li>
-            <li><a href="#contact">Contact</a></li>
+    <nav role="navigation" aria-label="Main navigation">
+        <div class="nav-logo glitch-wrap" aria-label="NEXORA Logo">NEXORA</div>
+        <button id="ham" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        <ul class="nav-links" role="menubar">
+            <li role="menuitem"><a href="#globe-sec">Globe</a></li>
+            <li role="menuitem"><a href="#orbs-sec">Services</a></li>
+            <li role="menuitem"><a href="#about">About</a></li>
+            <li role="menuitem"><a href="#testi-sec">Clients</a></li>
+            <li role="menuitem"><a href="#feedback">Feedback</a></li>
+            <li role="menuitem"><a href="#process">Process</a></li>
+            <li role="menuitem"><a href="#contact">Contact</a></li>
         </ul>
         <div class="nav-btns">
         </div>
     </nav>
 
     <!-- MOBILE DRAWER -->
-    <div id="mobile-drawer">
+    <div id="mobile-drawer" role="dialog" aria-label="Mobile menu">
         <div class="mob-logo">NEXORA</div>
         <ul id="mob-nav">
             <li><a href="#globe-sec" class="mob-link">Globe</a></li>
             <li><a href="#orbs-sec" class="mob-link">Services</a></li>
             <li><a href="#about" class="mob-link">About</a></li>
             <li><a href="#testi-sec" class="mob-link">Clients</a></li>
+            <li><a href="#feedback" class="mob-link">Feedback</a></li>
             <li><a href="#process" class="mob-link">Process</a></li>
             <li><a href="#contact" class="mob-link">Contact</a></li>
         </ul>
@@ -255,6 +299,37 @@
 
     <div class="divider"></div>
 
+    <!-- FEEDBACK -->
+    <section id="feedback">
+        <div class="cont-in">
+            <div class="sec-lbl reveal">07 // Client Portal</div>
+            <h2 class="reveal">CLIENT<br>FEEDBACK</h2>
+            <p class="reveal">Verified clients only. Enter your unique token to submit feedback.</p>
+            
+            <div class="fb-form-wrap reveal">
+                <form class="cf" id="fb-form" aria-label="Client feedback form">
+                    <div class="fg"><label for="fb-token">// Your Unique Token</label><input type="text" id="fb-token" name="token" placeholder="nx_xxxxxxxxxxxx" required></div>
+                    <div class="fg"><label>// Rating</label>
+                        <div class="star-rating" role="radiogroup" aria-label="Rating">
+                            <button type="button" class="star-btn" data-rating="1" aria-label="1 star">★</button>
+                            <button type="button" class="star-btn" data-rating="2" aria-label="2 stars">★</button>
+                            <button type="button" class="star-btn" data-rating="3" aria-label="3 stars">★</button>
+                            <button type="button" class="star-btn" data-rating="4" aria-label="4 stars">★</button>
+                            <button type="button" class="star-btn" data-rating="5" aria-label="5 stars">★</button>
+                        </div>
+                    </div>
+                    <div class="fg full"><label for="fb-comment">// Your Feedback</label><textarea id="fb-comment" name="comment" placeholder="Share your experience working with us..." required></textarea></div>
+                    <button type="submit" class="sub-btn mag-btn" id="fb-submit"><span>SUBMIT FEEDBACK</span></button>
+                </form>
+                <div id="fb-status" style="display:none;margin-top:1rem;font-family:'Share Tech Mono',monospace;"></div>
+            </div>
+
+            <div id="existing-feedback" class="feedback-list" aria-live="polite"></div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
     <!-- CONTACT -->
     <section id="contact">
         <div class="cont-in">
@@ -263,15 +338,16 @@
             <p class="reveal">Ready to build something that doesn't exist yet? Drop a transmission. We respond within 24
                 hours.</p>
             <div id="cf-greeting"></div>
-            <form class="cf reveal" id="cf" name="contact" method="POST"
-                action="https://formsubmit.co/saninkiliyamannil@gmail.com">
+            <form class="cf reveal" id="cf" name="contact">
+                <!-- Honeypot spam protection -->
+                <input type="text" name="website" id="hp-website" style="display:none;" tabindex="-1" autocomplete="off">
                 <input type="hidden" name="_subject" value="New NEXORA Inquiry">
-                <input type="hidden" name="_template" value="table">
-                <div class="fg"><label>// Your Name</label><input type="text" id="cf-name" name="name"
+                <input type="hidden" name="_honey" style="display:none;">
+                <div class="fg"><label for="cf-name">// Your Name</label><input type="text" id="cf-name" name="name"
                         placeholder="John Cipher" required></div>
-                <div class="fg"><label>// Email</label><input type="email" id="cf-email" name="email"
+                <div class="fg"><label for="cf-email">// Email</label><input type="email" id="cf-email" name="email"
                         placeholder="you@domain.com" required></div>
-                <div class="fg full"><label>// Service Required</label>
+                <div class="fg full"><label for="cf-service">// Service Required</label>
                     <select id="cf-service" name="service" required>
                         <option value="" disabled selected>Select a discipline...</option>
                         <option>Forex Trading / Account Management</option>
@@ -288,9 +364,9 @@
                         <option>Multiple Services</option>
                     </select>
                 </div>
-                <div class="fg full"><label>// Project Brief</label><textarea id="cf-brief" name="brief"
+                <div class="fg full"><label for="cf-brief">// Project Brief</label><textarea id="cf-brief" name="brief"
                         placeholder="Describe your project, goals and timeline..." required></textarea></div>
-                <button type="submit" class="sub-btn mag-btn"><span>TRANSMIT MESSAGE</span></button>
+                <button type="submit" class="sub-btn mag-btn" id="cf-submit"><span>TRANSMIT MESSAGE</span></button>
             </form>
             <div id="cf-error"
                 style="display:none;color:#ff7a7a;margin-top:.8rem;font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.1em;">

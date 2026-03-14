@@ -26,18 +26,64 @@
     }, 40);
 })();
 
-/* CURSOR */
+/* SCROLL PERFORMANCE OPTIMIZATION */
+(function() {
+    // Debounce utility for scroll events
+    window.debounce = function(fn, delay) {
+        let timeout;
+        return function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(fn, delay);
+        };
+    };
+    
+    // Throttle utility
+    window.throttle = function(fn, limit) {
+        let inThrottle;
+        return function() {
+            if (!inThrottle) {
+                fn();
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    };
+})();
+
+/* CURSOR - Optimized with requestAnimationFrame */
 (() => {
     const cur = document.getElementById('cur');
     const ring = document.getElementById('cur-ring');
     if (!cur || !ring) return;
 
+    let mouseX = 0, mouseY = 0;
+    let curX = 0, curY = 0;
+    let ringX = 0, ringY = 0;
+    let rafId = null;
+
     document.addEventListener('mousemove', (e) => {
-        cur.style.left = e.clientX + 'px';
-        cur.style.top = e.clientY + 'px';
-        ring.style.left = e.clientX + 'px';
-        ring.style.top = e.clientY + 'px';
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        if (!rafId) {
+            rafId = requestAnimationFrame(updateCursor);
+        }
     });
+
+    function updateCursor() {
+        // Smooth cursor follow with lerp
+        curX += (mouseX - curX) * 0.5;
+        curY += (mouseY - curY) * 0.5;
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+
+        cur.style.left = curX + 'px';
+        cur.style.top = curY + 'px';
+        ring.style.left = ringX + 'px';
+        ring.style.top = ringY + 'px';
+        
+        rafId = null;
+    }
 
     const interactiveSel = 'a,button,input,textarea,select,.s-orb,.tool-badge,.testi-card,.skill-card';
     document.addEventListener('mouseover', (e) => {
@@ -487,4 +533,295 @@ setTimeout(() => { const h = document.getElementById('egg-hint'); h.style.opacit
             window.scrollTo({ top, behavior: 'smooth' });
         });
     });
+})();
+
+
+/* â•â•â€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢
+   COOKIE CONSENT BANNER (GDPR)
+â•â€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢ */
+(() => {
+    const cookieBanner = document.getElementById('cookie-banner');
+    const cookieAccept = document.getElementById('cookie-accept');
+    const cookieDecline = document.getElementById('cookie-decline');
+    
+    if (!cookieBanner) return;
+    
+    const CONSENT_KEY = 'nexora_cookie_consent';
+    
+    function showBanner() {
+        cookieBanner.style.display = 'block';
+        cookieBanner.style.animation = 'slideUp 0.5s ease forwards';
+    }
+    
+    function hideBanner() {
+        cookieBanner.style.animation = 'slideDown 0.5s ease forwards';
+        setTimeout(() => {
+            cookieBanner.style.display = 'none';
+        }, 500);
+    }
+    
+    function setConsent(accepted) {
+        localStorage.setItem(CONSENT_KEY, accepted ? 'accepted' : 'declined');
+        hideBanner();
+    }
+    
+    // Check if user has already made a choice
+    const consent = localStorage.getItem(CONSENT_KEY);
+    if (!consent) {
+        // Show banner after a short delay
+        setTimeout(showBanner, 2000);
+    }
+    
+    if (cookieAccept) {
+        cookieAccept.addEventListener('click', () => setConsent(true));
+    }
+    
+    if (cookieDecline) {
+        cookieDecline.addEventListener('click', () => setConsent(false));
+    }
+})();
+
+
+/* â•â€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢
+   SERVICE WORKER REGISTRATION (PWA)
+â•â€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢ */
+(() => {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then((registration) => {
+                    console.log('SW registered:', registration.scope);
+                })
+                .catch((error) => {
+                    console.log('SW registration failed:', error);
+                });
+        });
+    }
+})();
+
+
+/* â•â€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢
+   LAZY LOAD IMAGES
+â•â€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢ */
+(() => {
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        img.classList.add('loaded');
+                    }
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, { rootMargin: '50px' });
+
+        document.querySelectorAll('img[data-src]').forEach((img) => {
+            imageObserver.observe(img);
+        });
+    } else {
+        // Fallback for older browsers
+        document.querySelectorAll('img[data-src]').forEach((img) => {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+        });
+    }
+})();
+
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   EMAILJS CONTACT FORM
+â•â•â•â€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢ */
+(() => {
+    const form = document.getElementById('cf');
+    const submitBtn = document.getElementById('cf-submit');
+    const cfError = document.getElementById('cf-error');
+    const cOk = document.getElementById('cOk');
+
+    if (!form || !submitBtn) return;
+
+    // Initialize EmailJS (replace with your actual keys)
+    // Get these from https://www.emailjs.com/
+    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Show loading state
+        const originalText = submitBtn.querySelector('span').textContent;
+        submitBtn.querySelector('span').textContent = 'TRANSMITTING...';
+        submitBtn.disabled = true;
+        if (cfError) cfError.style.display = 'none';
+        if (cOk) cOk.style.display = 'none';
+
+        try {
+            // Check if EmailJS is loaded, if not use FormSubmit as fallback
+            if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+                await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form, EMAILJS_PUBLIC_KEY);
+            } else {
+                // Fallback to FormSubmit
+                const formData = new FormData(form);
+                formData.append('_subject', 'New NEXORA Inquiry');
+                formData.append('_template', 'table');
+                
+                const response = await fetch('https://formsubmit.co/saninkiliyamannil@gmail.com', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) throw new Error('FormSubmit failed');
+            }
+
+            // Show success
+            if (cOk) {
+                cOk.style.display = 'block';
+                form.reset();
+            }
+        } catch (err) {
+            console.error('Form submission error:', err);
+            if (cfError) cfError.style.display = 'block';
+        } finally {
+            submitBtn.querySelector('span').textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+})();
+
+
+/* â•â•â•â€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢
+   CLIENT FEEDBACK SYSTEM (localStorage)
+â•â€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢â•€¢ */
+// Client tokens (in production, verify these server-side)
+const VALID_TOKENS = {
+    'nx_a1b2c3d4e5f6': { name: 'Alex Chen', company: 'TechVenture' },
+    'nx_b2c3d4e5f6g7': { name: 'Sarah Miller', company: 'ArtHouse' },
+    'nx_c3d4e5f6g7h8': { name: 'Marcus Webb', company: 'Pixel Studios' },
+    'nx_d4e5f6g7h8i9': { name: 'Elena Rodriguez', company: 'SecureNet' }
+};
+
+const FEEDBACK_KEY = 'nexora_feedback';
+
+(() => {
+    const fbForm = document.getElementById('fb-form');
+    const fbStatus = document.getElementById('fb-status');
+    const fbSubmit = document.getElementById('fb-submit');
+    const feedbackList = document.getElementById('existing-feedback');
+    
+    if (!fbForm) return;
+
+    // Star rating handling
+    const starBtns = fbForm.querySelectorAll('.star-btn');
+    let selectedRating = 5;
+    
+    starBtns.forEach((btn, idx) => {
+        btn.addEventListener('click', () => {
+            selectedRating = idx + 1;
+            starBtns.forEach((b, i) => {
+                b.style.color = i <= idx ? '#fbbf24' : '#666';
+            });
+        });
+    });
+    
+    // Set initial rating
+    starBtns.forEach((b, i) => {
+        b.style.color = i < 5 ? '#fbbf24' : '#666';
+    });
+
+    // Load existing feedback
+    function loadFeedback() {
+        const stored = localStorage.getItem(FEEDBACK_KEY);
+        if (!stored || !feedbackList) return;
+        
+        try {
+            const feedback = JSON.parse(stored);
+            if (feedback.length === 0) return;
+            
+            feedbackList.innerHTML = '<h3 style="margin:2rem 0 1rem;font-family:\'Share Tech Mono\',monospace;color:#888;">RECENT CLIENT FEEDBACK</h3>';
+            
+            feedback.slice(-3).reverse().forEach(fb => {
+                const div = document.createElement('div');
+                div.className = 'testi-card';
+                div.style.cssText = 'margin:1rem 0;padding:1.5rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;background:rgba(255,255,255,0.02);';
+                div.innerHTML = `
+                    <div style="margin-bottom:0.5rem;color:#fbbf24;">${'★'.repeat(fb.rating)}${'☆'.repeat(5-fb.rating)}</div>
+                    <p style="color:#ccc;margin-bottom:0.5rem;">"${fb.comment}"</p>
+                    <p style="color:#666;font-size:0.85rem;">${fb.clientName} · ${fb.company}</p>
+                `;
+                feedbackList.appendChild(div);
+            });
+        } catch (e) {
+            console.error('Error loading feedback:', e);
+        }
+    }
+    
+    loadFeedback();
+
+    // Handle form submission
+    fbForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const token = document.getElementById('fb-token').value.trim();
+        const comment = document.getElementById('fb-comment').value.trim();
+        
+        // Validate token
+        const client = VALID_TOKENS[token];
+        if (!client) {
+            showStatus('Invalid token. Only verified clients can submit feedback.', 'error');
+            return;
+        }
+        
+        // Validate comment
+        if (comment.length > 1000) {
+            showStatus('Comment too long (max 1000 characters).', 'error');
+            return;
+        }
+
+        // Sanitize comment
+        const sanitizedComment = comment.replace(/[<>]/g, '');
+        
+        // Get existing feedback
+        const stored = localStorage.getItem(FEEDBACK_KEY);
+        const feedback = stored ? JSON.parse(stored) : [];
+        
+        // Add new feedback
+        feedback.push({
+            token,
+            clientName: client.name,
+            company: client.company,
+            rating: selectedRating,
+            comment: sanitizedComment,
+            createdAt: new Date().toISOString()
+        });
+        
+        // Save to localStorage
+        localStorage.setItem(FEEDBACK_KEY, JSON.stringify(feedback));
+        
+        // Show success
+        showStatus('Thank you for your feedback!', 'success');
+        fbForm.reset();
+        
+        // Reset stars
+        starBtns.forEach((b, i) => {
+            b.style.color = i < 5 ? '#fbbf24' : '#666';
+        });
+        selectedRating = 5;
+        
+        // Reload feedback list
+        loadFeedback();
+    });
+    
+    function showStatus(msg, type) {
+        if (!fbStatus) return;
+        fbStatus.textContent = msg;
+        fbStatus.style.display = 'block';
+        fbStatus.style.color = type === 'success' ? '#4ade80' : '#ff7a7a';
+    }
 })();
